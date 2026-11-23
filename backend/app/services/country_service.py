@@ -62,19 +62,16 @@ def get_country_by_name(
         f"{country_name}"
     )
 
-
     response = requests.get(
         url,
         headers=get_headers(),
         timeout=10
     )
 
-
+   
     if response.status_code != 200:
 
         return None
-
-
     result = response.json()
 
 
