@@ -1,3 +1,4 @@
+import os
 import requests
 import pandas as pd
 import streamlit as st
@@ -16,7 +17,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-BACKEND_URL = "http://127.0.0.1:8000"
+try:
+    BACKEND_URL = st.secrets["BACKEND_URL"]
+except Exception:
+    BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 
 # ==========================================================
@@ -421,7 +425,7 @@ def render_html(content):
     st.markdown(dedent(content), unsafe_allow_html=True)
 
 
-def api_get(endpoint, params=None, timeout=30):
+def api_get(endpoint, params=None, timeout=90):
     try:
         response = requests.get(
             f"{BACKEND_URL}{endpoint}",
